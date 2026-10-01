@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Tiệm Nước Mía Hoàn Hảo</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:#4e745d;font-family:Arial,sans-serif;overflow:hidden}
+body{min-height:100vh;display:flex;justify-content:center;align-items:center}
+#game{width:min(100vw,900px);height:min(100vh,1600px);position:relative;overflow:hidden;background:#86c8dd;color:#222;image-rendering:auto}
+.sky{position:absolute;inset:0 0 48%;background:linear-gradient(#78bdd8 0%,#b5d8df 75%,#d9d39c 100%)}
+.cloud{position:absolute;background:#fff;border-radius:50%;opacity:.9;filter:blur(.3px)}
+.c1{width:170px;height:38px;top:13%;left:7%}.c1:before,.c1:after,.c2:before,.c2:after{content:"";position:absolute;background:#fff;border-radius:50%}.c1:before{width:60px;height:60px;left:30px;top:-25px}.c1:after{width:75px;height:65px;left:82px;top:-30px}
+.c2{width:150px;height:35px;top:20%;right:5%}.c2:before{width:65px;height:60px;left:28px;top:-27px}.c2:after{width:55px;height:55px;right:20px;top:-22px}
+.trees{position:absolute;left:0;right:0;top:29%;height:22%;background:
+radial-gradient(circle at 7% 55%,#397b42 0 8%,transparent 8.5%),
+radial-gradient(circle at 15% 45%,#4c914d 0 10%,transparent 10.5%),
+radial-gradient(circle at 82% 48%,#3d8043 0 10%,transparent 10.5%),
+radial-gradient(circle at 92% 57%,#4f9750 0 12%,transparent 12.5%),
+linear-gradient(transparent 0 70%,#7eaa59 70% 100%)}
+.building{position:absolute;left:5%;right:5%;top:31%;height:39%;background:#d7b878;border:5px solid #3c3026;box-shadow:0 8px 0 rgba(50,40,30,.2)}
+.roof{position:absolute;left:-2%;right:-2%;top:-11%;height:16%;background:repeating-linear-gradient(0deg,#5f6d6d 0 6px,#83908b 6px 10px);border:5px solid #3c3026;box-shadow:0 5px 0 #3c3026}
+.sign{position:absolute;left:24%;right:24%;top:8%;padding:9px 4px;background:#f2d477;border:4px solid #3c3026;text-align:center;font-weight:900;font-size:clamp(11px,2.3vw,18px);box-shadow:5px 5px 0 rgba(50,40,30,.22)}
+.column{position:absolute;top:19%;bottom:0;width:5%;background:#765036;border:3px solid #3c3026}.col1{left:7%}.col2{right:7%}
+.counter{position:absolute;left:14%;right:14%;bottom:13%;height:27%;background:linear-gradient(#dfe2db 0 12%,#818681 12% 19%,#8b5e3a 19%);border:5px solid #3c3026}
+.machine{position:absolute;left:30%;bottom:33%;width:22%;height:31%;background:linear-gradient(90deg,#69716e,#d8ddd8,#727976);border:5px solid #3c3026;border-radius:5px;box-shadow:6px 7px 0 rgba(50,40,30,.25)}
+.machine .roller{position:absolute;left:16%;right:16%;top:16%;height:30%;border:4px solid #302b25;border-radius:50%;background:#4f5754;animation:spin .9s linear infinite}.roller:after{content:"";position:absolute;inset:20%;border:3px solid #d9dfd9;border-radius:50%}
+.machine .glass{position:absolute;left:31%;right:31%;bottom:8%;height:27%;background:#9bd8a8;border:4px solid #3c3026}
+.cane{position:absolute;left:14%;bottom:35%;width:13%;height:30%;background:#76512f;border:4px solid #3c3026}.cane:before,.cane:after{content:"";position:absolute;bottom:5%;width:9px;height:90%;background:#719b3e;border:2px solid #324526}.cane:before{left:25%;transform:rotate(-8deg)}.cane:after{right:22%;transform:rotate(8deg)}
+.ice{position:absolute;right:14%;bottom:36%;width:15%;height:21%;background:#dbe4df;border:4px solid #3c3026;border-radius:5px;text-align:center;padding-top:12px;font-size:24px}
+.cups{position:absolute;right:32%;bottom:39%;width:8%;height:17%;background:#fff;border:4px solid #3c3026}
+.cash{position:absolute;right:17%;bottom:42%;width:10%;height:12%;background:#333c38;color:#aee69f;border:4px solid #3c3026;text-align:center;padding-top:7px;font-size:10px}
+.door{position:absolute;left:8%;top:23%;width:13%;height:43%;background:#70472d;border:5px solid #3c3026}
+.window{position:absolute;right:8%;top:26%;width:18%;height:24%;background:#87c5d0;border:5px solid #3c3026;box-shadow:inset 0 0 0 7px #e4d4a5}
+.floor{position:absolute;left:0;right:0;bottom:0;height:34%;background:repeating-linear-gradient(0deg,#9d7449 0 17px,#b98b58 17px 34px);border-top:6px solid #58402d}
+.road{position:absolute;left:0;right:0;bottom:0;height:14%;background:#4e5352;border-top:5px solid #302f2b}.line{position:absolute;left:5%;right:5%;top:48%;height:4px;background:repeating-linear-gradient(90deg,#e8dcae 0 65px,transparent 65px 110px)}
+.customer{position:absolute;width:37px;height:57px;border:4px solid #3c3026;border-radius:10px;background:#d89b72;z-index:8;box-shadow:5px 6px 0 rgba(50,40,30,.25)}.customer:before{content:"";position:absolute;left:3px;right:3px;top:-13px;height:18px;background:#49362b;border:4px solid #3c3026;border-radius:50%}.cu1{right:7%;bottom:22%}.cu2{right:20%;bottom:19%;transform:scale(.82);background:#7394a8}
+.player{position:absolute;width:58px;height:72px;z-index:10;transform:translate(-50%,-100%);border:4px solid #3c3026;border-radius:15px 15px 8px 8px;background:linear-gradient(#563d31 0 19%,#efc39e 19% 45%,#356d96 45% 73%,#3c3026 73% 78%,#75472d 78%);filter:drop-shadow(4px 5px 0 rgba(50,40,30,.3))}.player:before{content:"";position:absolute;left:7px;right:7px;top:10px;height:24px;background:#efc29d;border:3px solid #3c3026;border-radius:7px}.player:after{content:"•  •";position:absolute;top:14px;left:15px;font:bold 10px monospace;letter-spacing:3px}.walk{animation:walk .15s steps(2) infinite}@keyframes walk{50%{transform:translate(-50%,-105%)}}@keyframes spin{to{transform:rotate(360deg)}}
+#intro{position:absolute;inset:0;background:#17221c;z-index:50;display:flex;transition:opacity .45s ease;align-items:center;justify-content:center;text-align:center;color:#fff1b7}.introBox{padding:30px}.mee{font-size:28px;font-weight:1000;letter-spacing:2px}.sub{margin-top:12px;font-size:14px}.start{margin-top:30px;padding:15px 35px;border:4px solid #fff1b7;background:#c99045;color:#fff1b7;border-radius:9px;font-weight:1000;font-size:18px}
+.hud{position:absolute;top:10px;left:10px;right:10px;z-index:30;display:flex;gap:6px;flex-wrap:wrap}.stat{background:#fff0bd;border:3px solid #3c3026;border-radius:6px;padding:6px 8px;font-size:10px;font-weight:900;box-shadow:3px 3px 0 rgba(50,40,30,.2)}
+.prompt{position:absolute;z-index:30;left:50%;bottom:20%;transform:translateX(-50%);background:#fff0bd;border:3px solid #3c3026;padding:7px 10px;border-radius:7px;font-size:10px;font-weight:900;white-space:nowrap}
+.controls{position:absolute;left:10px;right:10px;bottom:12px;z-index:40;display:flex;justify-content:space-between;align-items:center;pointer-events:none}.joy{width:105px;height:105px;border-radius:50%;background:rgba(255,240,189,.72);border:4px solid #3c3026;pointer-events:auto;position:relative}.stick{position:absolute;width:48px;height:48px;left:25px;top:25px;border-radius:50%;background:#fff0bd;border:4px solid #3c3026}.action{width:85px;height:85px;border-radius:50%;border:4px solid #3c3026;background:#e19a58;color:#3c3026;font-weight:1000;font-size:11px;pointer-events:auto}.toast{position:absolute;z-index:45;top:15%;left:50%;transform:translateX(-50%);display:none;background:#fff0bd;border:4px solid #3c3026;border-radius:8px;padding:9px 12px;font-size:11px;font-weight:900;text-align:center}.toast.show{display:block}
+@media(max-width:500px){#game{height:100vh}.sign{font-size:10px}.stat{font-size:9px}}
+</style>
+</head>
+<body>
+<div id="game">
+<div id="intro"><div class="introBox"><div class="mee">MEEEGAME</div><div class="sub">cùng bạn tạo ra trò chơi.</div><button class="start" id="start">MỞ TIỆM</button></div></div>
+<div class="sky"></div><div class="cloud c1"></div><div class="cloud c2"></div><div class="trees"></div>
+<div class="building"><div class="roof"></div><div class="sign">🧃 TIỆM NƯỚC MÍA HOÀN HẢO</div><div class="column col1"></div><div class="column col2"></div><div class="door"></div><div class="window"></div><div class="counter"></div><div class="cane"></div><div class="machine"><div class="roller"></div><div class="glass"></div></div><div class="ice">🧊</div><div class="cups"></div><div class="cash">15₫</div></div>
+<div class="floor"></div><div class="road"><div class="line"></div></div><div class="customer cu1"></div><div class="customer cu2"></div>
+<div class="hud"><div class="stat">💰 <span id="money">50</span>₫</div><div class="stat">🌿 Mía <span id="caneCount">3</span></div><div class="stat">🧃 Ly <span id="juice">0</span></div><div class="stat">⭐ Uy tín <span id="rep">0</span></div></div>
+<div class="player" id="player" style="left:50%;top:76%"></div><div class="prompt" id="prompt">Kéo joystick để di chuyển</div><div class="toast" id="toast"></div>
+<div class="controls"><div class="joy" id="joy"><div class="stick" id="stick"></div></div><button class="action" id="action">TƯƠNG<br>TÁC</button></div>
+</div>
+<script>
+const intro=document.getElementById('intro'),start=document.getElementById('start'),player=document.getElementById('player'),joy=document.getElementById('joy'),stick=document.getElementById('stick'),action=document.getElementById('action'),prompt=document.getElementById('prompt'),toast=document.getElementById('toast');
+let x=50,y=76,money=50,cane=3,juice=0,rep=0,drag=false;
+const items=[['🌿 Kho mía',17,60],['⚙️ Máy ép',41,59],['🧊 Tủ đá',82,60],['🥤 Ly',67,60],['💰 Máy tính tiền',82,55],['😊 Khách',89,71],['🚪 Cửa',14,49]];
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function msg(t){toast.textContent=t;toast.classList.add('show');clearTimeout(msg.t);msg.t=setTimeout(()=>toast.classList.remove('show'),1400)}
+function render(){player.style.left=x+'%';player.style.top=y+'%';document.getElementById('money').textContent=money;document.getElementById('caneCount').textContent=cane;document.getElementById('juice').textContent=juice;document.getElementById('rep').textContent=rep;let b=null,d=99;for(const i of items){let q=Math.hypot((x-i[1])*1.1,y-i[2]);if(q<d){d=q;b=i}}prompt.textContent=b&&d<15?'TƯƠNG TÁC • '+b[0]:'Kéo joystick để di chuyển';}
+function move(dx,dy){x=clamp(x+dx,7,93);y=clamp(y+dy,35,91);player.classList.add('walk');clearTimeout(move.t);move.t=setTimeout(()=>player.classList.remove('walk'),130);render()}
+function interact(){let b=null,d=99;for(const i of items){let q=Math.hypot((x-i[1])*1.1,y-i[2]);if(q<d){d=q;b=i}}if(!b||d>15){msg('Hãy đi lại gần đồ vật.');return}
+if(b[0].includes('Kho')){if(cane<6){cane++;msg('🌿 Lấy 1 cây mía tươi!')}else msg('Kho mía đã đầy.')}
+else if(b[0].includes('Máy ép')){if(cane){cane--;juice++;msg('🧃 Ép xong 1 ly nước mía!')}else msg('❌ Hết mía!')}
+else if(b[0].includes('Tủ')){rep++;msg('🧊 Thêm đá lạnh. +1 uy tín')}
+else if(b[0].includes('Ly'))msg(juice?'🥤 Ly đã sẵn sàng!':'Chưa có nước mía.')
+else if(b[0].includes('Máy tính')){if(juice){juice--;money+=15;rep++;msg('💰 Bán 1 ly! +15₫')}else msg('Chưa có ly để bán.')}
+else if(b[0].includes('Khách')){if(juice){juice--;money+=20;rep+=2;msg('😊 Khách hài lòng! +20₫')}else msg('👋 Khách đang chờ nước mía!')}
+else msg('🚪 Bạn đang ở cửa tiệm.');render()}
+function joyMove(e){const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;let dx=e.clientX-cx,dy=e.clientY-cy,len=Math.hypot(dx,dy),max=r.width*.31;if(len>max){dx=dx/len*max;dy=dy/len*max}stick.style.transform=`translate(${dx}px,${dy}px)`;if(len>7)move(dx/max*1.6,dy/max*1.6);e.preventDefault()}
+joy.addEventListener('pointerdown',e=>{drag=true;joy.setPointerCapture(e.pointerId);joyMove(e)});joy.addEventListener('pointermove',e=>{if(drag)joyMove(e)});joy.addEventListener('pointerup',()=>{drag=false;stick.style.transform='translate(0,0)'});joy.addEventListener('pointercancel',()=>{drag=false;stick.style.transform='translate(0,0)'});
+action.addEventListener('pointerdown',e=>{e.preventDefault();interact()});function openShop(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  intro.style.opacity='0';
+  setTimeout(()=>{intro.style.display='none';},450);
+}
+start.addEventListener('click',openShop);
+start.addEventListener('touchend',openShop,{passive:false});render();
+</script>
+</body>
+</html>
