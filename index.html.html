@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rạp Sao Mai — Meegamee</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#527a6b;font-family:monospace;color:#302822;display:flex;justify-content:center;padding:12px}
+#app{width:min(1200px,100%);background:#ead29d;border:5px solid #49382c;box-shadow:0 8px #2c2723}
+#splash{position:fixed;inset:0;background:#172522;z-index:99;display:flex;align-items:center;justify-content:center;color:#ffe5a8;text-align:center}
+.splashin{animation:pulse 1.5s infinite alternate}.splashlogo{font-size:48px;font-weight:900;letter-spacing:5px;text-shadow:5px 5px #76502e}.splashsub{font-size:12px;margin-top:12px;letter-spacing:2px}@keyframes pulse{to{transform:scale(1.03)}}
+header{height:58px;background:#f4dfb0;border-bottom:4px solid #654a34;display:flex;align-items:center;gap:7px;padding:7px;flex-wrap:wrap}.logo{font-weight:900;font-size:18px;margin-right:auto}.pub{font-size:9px;color:#785b3d;display:block}
+.stat{background:#fff0c5;border:3px solid #694d35;padding:6px 9px;font-weight:bold;box-shadow:2px 2px #806346}
+#world{position:relative;background:#79afc5}canvas{display:block;width:100%;height:auto;image-rendering:pixelated}
+.box{position:absolute;background:#fff0c8;border:4px solid #5e432e;box-shadow:4px 4px #49392d;padding:8px;pointer-events:auto}.left{left:10px;top:10px;width:245px}.right{right:10px;top:10px;width:250px}.actions{right:10px;bottom:10px;width:340px;display:flex;flex-wrap:wrap;gap:6px}
+.btn{font:900 12px monospace;border:3px solid #573e2d;background:#f4dfad;padding:7px;cursor:pointer;box-shadow:3px 3px #71583e}.btn:hover{transform:translate(-1px,-1px)}.green{background:#6d9c68;color:white}.blue{background:#6b9eb7;color:white}.gold{background:#dfa938}.red{background:#d65348;color:white}
+.small{font-size:11px;line-height:1.35}.bar{height:10px;background:#c9b78e;border:2px solid #62452f}.bar i{display:block;height:100%;background:#649661}#hint{position:absolute;left:10px;bottom:10px;background:#fff0c8;border:3px solid #60452f;padding:6px;font-weight:bold;font-size:11px}
+#below{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px;background:#f0dcaa;border-top:4px solid #5d4431}.card{background:#fff0c8;border:3px solid #60452f;padding:8px}.log{height:90px;overflow:auto;font-size:11px;line-height:1.4}.log div{padding:3px;border-bottom:1px dashed #b89868}
+.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;z-index:10;padding:12px}.modalbox{width:min(620px,100%);max-height:90vh;overflow:auto;background:#ffedc0;border:6px solid #4b3729;box-shadow:8px 8px #29231e;padding:16px}.modalbox h2{margin-top:0}.shop{border:3px solid #755238;padding:8px;margin:7px 0;background:#f6e0ac}.row{display:flex;justify-content:space-between;border-bottom:1px dashed #b79665;padding:5px 0}
+#toast{display:none;position:fixed;bottom:15px;left:50%;transform:translateX(-50%);background:#fff0c8;border:4px solid #4b392c;padding:8px 13px;box-shadow:4px 4px #302720;z-index:20;font-weight:bold}
+@media(max-width:700px){#below{grid-template-columns:1fr}.left{width:210px}.right{width:210px}.actions{width:280px}}
+</style>
+</head>
+<body>
+<div id="splash"><div class="splashin"><div class="splashlogo">MEEGAMEE</div><div class="splashsub">NHÀ PHÁT HÀNH • PRESENTS</div><div style="margin-top:30px;font-size:11px">RẠP SAO MAI</div></div></div>
+<div id="app">
+<header><div class="logo">🎬 RẠP SAO MAI <span class="pub">MEEGAMEE • NHÀ PHÁT HÀNH</span></div>
+<div class="stat">📅 <span id="day">1</span></div><div class="stat">🕘 <span id="time">09:00</span></div><div class="stat">💰 <span id="cash">5.000.000</span>đ</div><div class="stat">⭐ <span id="rep">50</span></div><div class="stat">👥 <span id="people">0</span></div></header>
+<div id="world"><canvas id="c" width="1200" height="620"></canvas>
+<div class="box left"><h3>📋 NHIỆM VỤ</h3><div id="quest" class="small"></div><div class="bar"><i id="qbar"></i></div><hr><b>🎮 Điều khiển</b><div class="small">WASD / phím mũi tên: đi lại<br>E: tương tác với phòng/NPC<br>ESC: đóng cửa sổ</div></div>
+<div class="box right"><h3>📱 ĐIỆN THOẠI</h3><div id="phone" class="small">Tin nhắn: Bác Minh đang chờ bạn.</div><hr><h3>🏪 CỬA HÀNG</h3><button class="btn gold" onclick="shop()">Mở Shop</button> <button class="btn blue" onclick="phone()">Điện thoại</button></div>
+<div class="actions"><button class="btn green" onclick="openCinema()">🚪 Mở rạp</button><button class="btn" onclick="save()">💾 Lưu</button><button class="btn red" onclick="newDay()">🌙 Kết ngày</button></div>
+<div id="hint">WASD để di chuyển • E để tương tác</div></div>
+<div id="below"><div class="card"><h3>📖 Cốt truyện</h3><div id="story" class="small"></div></div><div class="card"><h3>📰 Nhật ký</h3><div id="log" class="log"></div></div></div>
+</div>
+<div class="modal" id="modal"><div class="modalbox"><h2 id="mt"></h2><div id="mb"></div><div id="mc"></div></div></div><div id="toast"></div>
+
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');x.imageSmoothingEnabled=false;
+let S={x:600,y:530,day:1,hour:9,cash:5000000,rep:50,rooms:3,staff:2,screen:1,snack:1,clean:82,open:false,vis:0,today:0,debt:8000000,story:0,customers:[],log:[],roomState:[0,0,0],npc:{minh:false,lan:false}};
+try{const z=localStorage.getItem('saomai-v4');if(z)S={...S,...JSON.parse(z)}}catch(e){}
+const $=id=>document.getElementById(id),fmt=n=>Math.round(n).toLocaleString('vi-VN');
+function save(){localStorage.setItem('saomai-v4',JSON.stringify(S));toast('💾 Đã lưu tiến độ!')}
+function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>$('toast').style.display='none',1700)}
+function log(t){S.log.unshift('<div>'+t+'</div>');S.log=S.log.slice(0,30);$('log').innerHTML=S.log.join('')}
+function modal(t,b,buttons='<button class="btn" onclick="closeM()">Đóng</button>'){$('mt').textContent=t;$('mb').innerHTML=b;$('mc').innerHTML=buttons;$('modal').style.display='flex'}
+function closeM(){$('modal').style.display='none'}
+function phone(){modal('📱 ĐIỆN THOẠI',`<div class="row"><b>Nhiệm vụ hôm nay</b><span>${S.today}/20 khách</span></div><div class="row"><b>Khoản nợ</b><span>${fmt(S.debt)}đ</span></div><div class="row"><b>Uy tín</b><span>${S.rep}/100</span></div><p>💬 Bác Minh: “Nhớ kiểm tra từng phòng trước giờ chiếu.”</p><p>💬 Lan: “Quầy bắp hôm nay đông lắm đó!”</p>`)}
+function shop(){let a=[['📽️ Máy chiếu Lv.'+S.screen,900000*S.screen,'screen'],['🏛️ Mở thêm phòng',1600000*S.rooms,'room'],['👥 Thuê nhân viên',500000*S.staff,'staff'],['🍿 Nâng quầy bắp Lv.'+S.snack,700000*S.snack,'snack']];modal('🏪 CỬA HÀNG',a.map(v=>`<div class="shop"><b>${v[0]}</b><br>${fmt(v[1])}đ <button class="btn gold" onclick="buy('${v[2]}',${v[1]})">Mua</button></div>`).join(''))}
+function buy(t,cost){if(S.cash<cost){toast('💸 Chưa đủ tiền');return}if(t==='room'&&S.rooms>=5){toast('Phòng đã tối đa');return}S.cash-=cost;if(t==='screen')S.screen++;if(t==='room'){S.rooms++;S.roomState.push(0)}if(t==='staff')S.staff++;if(t==='snack')S.snack++;log('🔧 Đã nâng cấp rạp.');closeM();update()}
+function openCinema(){if(S.open){toast('Rạp đã mở');return}S.open=true;log('🚪 Rạp Sao Mai mở cửa!');toast('Khách bắt đầu đến!');for(let i=0;i<3;i++)spawnCustomer()}
+function spawnCustomer(){if(!S.open||S.customers.length>=12)return;let target=Math.floor(Math.random()*S.rooms);if(target>=S.rooms)target=0;S.customers.push({x:90+Math.random()*1020,y:555,tx:170+target*210,ty:170,room:target,wait:0})}
+function interact(){let near=null,dist=999;const things=[...rooms(),{type:'npc',name:'Bác Minh',x:210,y:430},{type:'npc',name:'Lan',x:970,y:430},{type:'shop',name:'Quầy vé',x:600,y:475}];things.forEach(o=>{let d=Math.hypot(S.x-o.x,S.y-o.y);if(d<75&&d<dist){near=o;dist=d}});if(!near){toast('Không có gì để tương tác');return}
+if(near.type==='room'){roomMenu(near.i)}else if(near.type==='npc')npc(near.name);else ticketMenu()}
+function rooms(){let a=[];for(let i=0;i<S.rooms;i++)a.push({type:'room',i,x:170+i*210,y:155});return a}
+function roomMenu(i){let state=S.roomState[i]||0;modal('🎞️ PHÒNG '+(i+1),`<div class="row"><b>Phim</b><span>${['Bóng Ma Phòng 4','Robot Tí Hon','Hoàng Hôn Cuối Hè'][i%3]}</span></div><div class="row"><b>Trạng thái</b><span>${state?'Đang chiếu':'Sẵn sàng'}</span></div><div class="row"><b>Vệ sinh</b><span>${S.clean}%</span></div><p>Quản lý phòng: đổi phim, vệ sinh, mở suất chiếu.</p>`,`<button class="btn green" onclick="startRoom(${i})">${state?'🔴 Dừng suất':'▶️ Bắt đầu suất'}</button> <button class="btn gold" onclick="cleanRoom(${i})">🧹 Vệ sinh</button> <button class="btn" onclick="closeM()">Đóng</button>`)}
+function startRoom(i){S.roomState[i]=1;log('🎞️ Phòng '+(i+1)+' bắt đầu chiếu phim.');closeM();update()}
+function cleanRoom(i){S.clean=Math.min(100,S.clean+18);S.roomState[i]=0;log('🧹 Đã vệ sinh phòng '+(i+1)+'.');closeM();update()}
+function npc(n){if(n==='Bác Minh'){S.npc.minh=true;modal('👨 BÁC MINH',`<p>“Cháu là chủ mới của rạp rồi. Muốn cứu rạp thì phải làm khách hài lòng.”</p><p>“Hãy mở ít nhất một phòng, giữ sạch sẽ và đừng để khách phải chờ lâu.”</p>`)}else{S.npc.lan=true;modal('👩 LAN — QUẢN LÝ QUẦY',`<p>“Tớ phụ trách bắp nước. Nâng cấp quầy sẽ tăng tiền mỗi khách.”</p><p>“Nếu thấy khách đứng lâu ở sảnh, kiểm tra các phòng nhé!”</p>`)}}
+function ticketMenu(){modal('🎟️ QUẦY VÉ',`<p>Vé cơ bản: <b>70.000đ</b></p><p>Đang có ${S.today} khách hôm nay.</p>`)}
+function newDay(){if(S.day>=10){endGame();return}if(S.today>=20){S.rep+=4;S.debt=Math.max(0,S.debt-400000)}else S.rep=Math.max(0,S.rep-2);S.day++;S.hour=9;S.open=false;S.today=0;S.clean=100;S.customers=[];S.roomState=S.roomState.map(()=>0);log('🌙 Sang ngày '+S.day+'.');storyUpdate();update()}
+function endGame(){let msg=S.debt<=0?'🎉 Bạn đã trả hết nợ và cứu Rạp Sao Mai!':'📽️ Hành trình 10 ngày kết thúc. Rạp vẫn còn khoản nợ '+fmt(S.debt)+'đ.';modal('🏁 KẾT THÚC',`<p>${msg}</p><p>Tiền: ${fmt(S.cash)}đ • Uy tín: ${S.rep}</p>`,'<button class="btn green" onclick="closeM()">Chơi tiếp</button>')}
+function storyUpdate(){let texts=['Ông ngoại để lại rạp phim cũ. Bạn có 10 ngày để trả khoản nợ 8 triệu và cứu rạp khỏi bị bán.','Ngày 2: Máy chiếu cũ bắt đầu trục trặc. Khách đầu tiên đang đến.','Ngày 3: Lan đề nghị nâng cấp quầy bắp để tăng doanh thu.','Ngày 4: Một nhà đầu tư ghé thăm và để ý lượng khách của rạp.','Ngày 5: Bác Minh kể bí mật về Phòng 4.','Ngày 6: Cuối tuần, lượng khách tăng mạnh.','Ngày 7: Bạn phải giữ rạp sạch nếu muốn giữ uy tín.','Ngày 8: Một bộ phim mới được gửi đến rạp.','Ngày 9: Chỉ còn một ngày để trả nợ.','Ngày 10: Ngày quyết định của Rạp Sao Mai.'];$('story').textContent=texts[S.day-1]||texts[9]}
+function update(){ $('day').textContent=S.day;$('time').textContent=String(S.hour).padStart(2,'0')+':00';$('cash').textContent=fmt(S.cash);$('rep').textContent=S.rep;$('people').textContent=S.customers.length;$('qbar').style.width=Math.min(100,S.today/20*100)+'%';$('quest').textContent=S.today<20?'Mở rạp và phục vụ 20 khách ('+S.today+'/20).':'Đã hoàn thành! Giữ uy tín và kiếm tiền.';$('log').innerHTML=S.log.join('');storyUpdate()}
+function draw(){x.clearRect(0,0,c.width,c.height);
+x.fillStyle='#82b8c9';x.fillRect(0,0,1200,390);x.fillStyle='#78a05f';x.fillRect(0,390,1200,230);
+x.fillStyle='#655345';x.fillRect(0,465,1200,100);x.fillStyle='#d9c18a';for(let i=0;i<1200;i+=70)x.fillRect(i,510,32,5);
+x.fillStyle='#b83f42';x.fillRect(70,60,470,300);x.fillStyle='#f3d58e';x.fillRect(95,85,420,55);x.fillStyle='#5b342a';x.font='bold 36px monospace';x.fillText('RẠP SAO MAI',150,122);
+for(let i=0;i<S.rooms;i++){let rx=120+i*210;x.fillStyle='#45352f';x.fillRect(rx,165,175,190);x.fillStyle='#b76d59';x.fillRect(rx+12,180,151,85);x.fillStyle='#27252a';x.fillRect(rx+28,195,119,55);x.fillStyle='#f0cf74';x.font='bold 13px monospace';x.fillText('PHÒNG '+(i+1),rx+45,285);x.fillStyle=S.roomState[i]?'#68a45d':'#a24d48';x.fillRect(rx+55,305,65,15)}
+x.fillStyle='#8a5c37';x.fillRect(810,90,300,250);x.fillStyle='#e0b46d';x.fillRect(830,115,260,55);x.fillStyle='#523a2e';x.font='bold 22px monospace';x.fillText('🍿 SHOP',905,150);
+drawNPC(210,430,'MINH');drawNPC(970,430,'LAN');drawPlayer();S.customers.forEach(drawCustomer)}
+function drawPlayer(){x.fillStyle='#263c57';x.fillRect(S.x-11,S.y-25,22,30);x.fillStyle='#e8b28b';x.fillRect(S.x-9,S.y-42,18,17);x.fillStyle='#3b2523';x.fillRect(S.x-10,S.y-46,20,8);x.fillStyle='#302a25';x.fillRect(S.x-10,S.y+5,7,13);x.fillRect(S.x+3,S.y+5,7,13)}
+function drawNPC(px,py,name){x.fillStyle='#714c38';x.fillRect(px-10,py-25,20,30);x.fillStyle='#e4ad86';x.fillRect(px-9,py-42,18,18);x.fillStyle='#352824';x.fillRect(px-11,py-46,22,8);x.fillStyle='#fff';x.font='11px monospace';x.fillText(name,px-18,py+28)}
+function drawCustomer(o){x.fillStyle='#455f77';x.fillRect(o.x-7,o.y-20,14,22);x.fillStyle='#e4ad86';x.fillRect(o.x-6,o.y-31,12,12)}
+function move(){let sp=3.2;if(keys.w||keys.ArrowUp)S.y-=sp;if(keys.s||keys.ArrowDown)S.y+=sp;if(keys.a||keys.ArrowLeft)S.x-=sp;if(keys.d||keys.ArrowRight)S.x+=sp;S.x=Math.max(25,Math.min(1175,S.x));S.y=Math.max(390,Math.min(580,S.y))}
+const keys={};addEventListener('keydown',e=>{keys[e.key]=true;if(e.key.toLowerCase()==='e')interact();if(e.key==='Escape')closeM()});addEventListener('keyup',e=>keys[e.key]=false);
+function sim(){move();if(S.open&&Math.random()<0.012)spawnCustomer();S.customers.forEach(o=>{let dx=o.tx-o.x,dy=o.ty-o.y,d=Math.hypot(dx,dy);if(d>3){o.x+=dx/d*1.2;o.y+=dy/d*1.2}else{o.wait++;if(o.wait>260){S.cash+=70000+(S.snack-1)*10000;S.today++;S.vis++;o.x=600;o.y=450;o.tx=70+Math.random()*1060;o.ty=555;o.wait=0}}});if(S.hour<22&&S.open&&Math.random()<0.003){S.hour++;update()}draw();requestAnimationFrame(sim)}
+setInterval(()=>{if(S.open&&S.hour>=22)newDay()},5000);
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('splash').style.display='none',1800);log('🎬 Chào mừng đến Rạp Sao Mai.');update();sim()});
+</script>
+</body></html>
